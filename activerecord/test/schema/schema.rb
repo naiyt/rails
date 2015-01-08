@@ -899,6 +899,17 @@ ActiveRecord::Schema.define do
     t.string :token
     t.string :auth_token
   end
+
+  create_table :assignments, force: true
+
+  create_table :questions, force: true do |t|
+    t.boolean :answer
+  end
+
+  create_table :question_assignments, :force => true do |t|
+    t.integer  :question_id, :null => false
+    t.integer  :assignment_id,  :null => false
+  end
 end
 
 Course.connection.create_table :courses, force: true do |t|

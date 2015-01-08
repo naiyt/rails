@@ -26,6 +26,7 @@ require 'models/member'
 require 'models/membership'
 require 'models/club'
 require 'models/organization'
+require 'models/assignment'
 
 class HasManyThroughAssociationsTest < ActiveRecord::TestCase
   fixtures :posts, :readers, :people, :comments, :authors, :categories, :taggings, :tags,
@@ -1159,5 +1160,12 @@ class HasManyThroughAssociationsTest < ActiveRecord::TestCase
     post_direct = author.posts.build
     post_through = organization.posts.build
     assert_equal post_direct.author_id, post_through.author_id
+  end
+
+  def test_sti_on_has_many_through_with_relation_on_child
+    assignment = Page.create(:questions => [Question.create!, Question.create!])
+    assignment.reload
+    assert_equal(42, assignment.questions[0].answer)
+    assert_equal(42, assignment.questions[1].answer)
   end
 end
